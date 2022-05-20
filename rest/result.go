@@ -323,25 +323,29 @@ type LinearPositionData struct {
 }
 
 type Order struct {
-	UserId        int          `json:"user_id"`
-	OrderId       string       `json:"order_id"`
-	Symbol        string       `json:"symbol"`
-	Side          string       `json:"side"`
-	OrderType     string       `json:"order_type"`
-	Price         sjson.Number `json:"price"`
-	Qty           sjson.Number `json:"qty"`
-	TimeInForce   string       `json:"time_in_force"`
-	OrderStatus   string       `json:"order_status"`
-	LastExecTime  sjson.Number `json:"last_exec_time"`
-	LastExecPrice sjson.Number `json:"last_exec_price"`
-	LeavesQty     sjson.Number `json:"leaves_qty"`
-	CumExecQty    sjson.Number `json:"cum_exec_qty"`
-	CumExecValue  sjson.Number `json:"cum_exec_value"`
-	CumExecFee    sjson.Number `json:"cum_exec_fee"`
-	RejectReason  string       `json:"reject_reason"`
-	OrderLinkID   string       `json:"order_link_id"`
-	CreatedAt     time.Time    `json:"created_at"`
-	UpdatedAt     time.Time    `json:"updated_at"`
+	UserId         int          `json:"user_id"`
+	OrderId        string       `json:"order_id"`
+	Symbol         string       `json:"symbol"`
+	Side           string       `json:"side"`
+	OrderType      string       `json:"order_type"`
+	Price          sjson.Number `json:"price"`
+	Qty            sjson.Number `json:"qty"`
+	TimeInForce    string       `json:"time_in_force"`
+	OrderStatus    string       `json:"order_status"`
+	LastExecTime   sjson.Number `json:"last_exec_time"`
+	LastExecPrice  sjson.Number `json:"last_exec_price"`
+	LeavesQty      sjson.Number `json:"leaves_qty"`
+	CumExecQty     sjson.Number `json:"cum_exec_qty"`
+	CumExecValue   sjson.Number `json:"cum_exec_value"`
+	CumExecFee     sjson.Number `json:"cum_exec_fee"`
+	RejectReason   string       `json:"reject_reason"`
+	OrderLinkID    string       `json:"order_link_id"`
+	TakeProfit     float64      `json:"take_profit"`
+	StopLoss       float64      `json:"stop_loss"`
+	ReduceOnly     bool         `json:"reduce_only"`
+	CloseOnTrigger bool         `json:"close_on_trigger"`
+	CreatedAt      time.Time    `json:"created_time"`
+	UpdatedAt      time.Time    `json:"updated_time"`
 }
 
 type OrderListResponse struct {

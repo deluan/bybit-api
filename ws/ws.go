@@ -7,16 +7,18 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/chuckpreslar/emission"
-	"github.com/frankrap/bybit-api/recws"
-	"github.com/gorilla/websocket"
-	"github.com/tidwall/gjson"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/chuckpreslar/emission"
+	"github.com/frankrap/bybit-api/recws"
+	"github.com/gorilla/websocket"
+	"github.com/tidwall/gjson"
+	"golang.org/x/exp/slices"
 )
 
 const (
@@ -38,7 +40,7 @@ const (
 
 const (
 	WSOrderBook25L1 = "orderBookL2_25" // 新版25档orderBook: order_book_25L1.BTCUSD
-	WSKLine         = "kline"          // K线: kline.BTCUSD.1m
+	WSKLine         = "candle"         // K线: candle.1.BTCUSD
 	WSTrade         = "trade"          // 实时交易: trade/trade.BTCUSD
 	WSInsurance     = "insurance"      // 每日保险基金更新: insurance
 	WSInstrument    = "instrument"     // 产品最新行情: instrument
@@ -142,7 +144,21 @@ func (b *ByBitWS) Subscribe(arg string) {
 		Op:   "subscribe",
 		Args: []interface{}{arg},
 	}
-	b.subscribeCmds = append(b.subscribeCmds, cmd)
+	if slices.IndexFunc(b.subscribeCmds, func(c Cmd) bool { return c.EqualTo(cmd) }) == -1 {
+		b.subscribeCmds = append(b.subscribeCmds, cmd)
+	}
+	b.SendCmd(cmd)
+}
+
+func (b *ByBitWS) Unsubscribe(arg string) {
+	cmd := Cmd{
+		Op:   "unsubscribe",
+		Args: []interface{}{arg},
+	}
+	idx := slices.IndexFunc(b.subscribeCmds, func(c Cmd) bool { return c.EqualTo(cmd) })
+	if idx > 0 {
+		slices.Delete(b.subscribeCmds, idx, idx+1)
+	}
 	b.SendCmd(cmd)
 }
 
@@ -291,20 +307,22 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			}
 			b.processTrade(symbol, data...)
 		} else if strings.HasPrefix(topic, WSKLine) {
-			// kline.BTCUSD.1m
+			// candle.1.BTCUSDT
 			topicArray := strings.Split(topic, ".")
 			if len(topicArray) != 3 {
 				return
 			}
-			symbol := topicArray[1]
+			symbol := topicArray[2]
 			raw := ret.Get("data").Raw
-			var data KLine
+			var data []KLine
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
 				return
 			}
-			b.processKLine(symbol, data)
+			for _, d := range data {
+				b.processKLine(symbol, d)
+			}
 		} else if strings.HasPrefix(topic, WSInsurance) {
 			// insurance.BTC
 			topicArray := strings.Split(topic, ".")

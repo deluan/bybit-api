@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/frankrap/bybit-api/ws"
 	"log"
+
+	"github.com/frankrap/bybit-api/ws"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 	//b.Subscribe("trade.BTCUSD")
 	b.Subscribe(ws.WSTrade) // BTCUSD/ETHUSD/EOSUSD/XRPUSD
 	// K线
-	b.Subscribe(ws.WSKLine + ".BTCUSD.1m")
+	b.Subscribe(ws.WSKLine + "1.BTCUSDT")
 	// 每日保险基金更新
 	b.Subscribe(ws.WSInsurance)
 	// 产品最新行情

@@ -1,6 +1,6 @@
 module github.com/frankrap/bybit-api
 
-go 1.17
+go 1.18
 
 require (
 	github.com/chuckpreslar/emission v0.0.0-20170206194824-a7ddd980baf9
@@ -18,5 +18,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/tidwall/match v1.0.1 // indirect
 	github.com/tidwall/pretty v1.0.0 // indirect
+	golang.org/x/exp v0.0.0-20220706164943-b4a6d9510983 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )

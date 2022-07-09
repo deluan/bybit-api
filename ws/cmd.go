@@ -1,5 +1,7 @@
 package ws
 
+import "fmt"
+
 /*
 ws.send('{"op":"subscribe","args":["topic","topic.filter"]}');
 
@@ -14,4 +16,8 @@ ws.send('{"op":"subscribe","args":["kline.*.*"]}')
 type Cmd struct {
 	Op   string        `json:"op"`
 	Args []interface{} `json:"args"`
+}
+
+func (c Cmd) EqualTo(c2 Cmd) bool {
+	return fmt.Sprintf("%s|%v", c.Op, c.Args) == fmt.Sprintf("%s|%v", c2.Op, c2.Args)
 }

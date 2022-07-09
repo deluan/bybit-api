@@ -386,7 +386,7 @@ type StopOrder struct {
 	StopOrderId       string       `json:"stop_order_id"`
 	StopOrderType     string       `json:"stop_order_type"`
 	StopOrderStatus   string       `json:"stop_order_status"`
-	StopPx            sjson.Number `json:"stop_px"`
+	StopPx            sjson.Number `json:"trigger_price"`
 	UserId            int64        `json:"user_id"`
 	Symbol            string       `json:"symbol"`
 	Side              string       `json:"side"`
@@ -397,6 +397,11 @@ type StopOrder struct {
 	CancelType        string       `json:"cancel_type"`
 	LeavesQty         sjson.Number `json:"leaves_qty"`
 	LeavesValue       string       `json:"leaves_value"`
+	OrderLinkID       string       `json:"order_link_id"`
+	TakeProfit        float64      `json:"take_profit"`
+	StopLoss          float64      `json:"stop_loss"`
+	ReduceOnly        bool         `json:"reduce_only"`
+	CloseOnTrigger    bool         `json:"close_on_trigger"`
 	CreatedAt         time.Time    `json:"created_at"`
 	UpdatedAt         time.Time    `json:"updated_at"`
 	CrossStatus       string       `json:"cross_status"`

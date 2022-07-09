@@ -118,6 +118,19 @@ func (b *ByBit) WalletRecords(symbol string, page int, limit int) (query string,
 	return
 }
 
+// GetTicker
+func (b *ByBit) GetTicker(symbol string) (query string, resp []byte, result Ticker, err error) {
+	var ret GetTickersResult
+	params := map[string]interface{}{}
+	params["symbol"] = symbol
+	query, resp, err = b.PublicRequest(http.MethodGet, "v2/public/tickers", params, &ret)
+	if err != nil {
+		return
+	}
+	result = ret.Result[0]
+	return
+}
+
 // GetTickers
 func (b *ByBit) GetTickers() (query string, resp []byte, result []Ticker, err error) {
 	var ret GetTickersResult

@@ -380,35 +380,27 @@ type OrderArrayResponse struct {
 }
 
 type StopOrder struct {
-	OrderId           string       `json:"order_id"`
-	OrderType         string       `json:"order_type"`
-	OrderStatus       string       `json:"order_status"`
-	StopOrderId       string       `json:"stop_order_id"`
-	StopOrderType     string       `json:"stop_order_type"`
-	StopOrderStatus   string       `json:"stop_order_status"`
-	StopPx            sjson.Number `json:"trigger_price"`
-	UserId            int64        `json:"user_id"`
-	Symbol            string       `json:"symbol"`
-	Side              string       `json:"side"`
-	Price             sjson.Number `json:"price"`
-	Qty               sjson.Number `json:"qty"`
-	TimeInForce       string       `json:"time_in_force"`
-	CreateType        string       `json:"create_type"`
-	CancelType        string       `json:"cancel_type"`
-	LeavesQty         sjson.Number `json:"leaves_qty"`
-	LeavesValue       string       `json:"leaves_value"`
-	OrderLinkID       string       `json:"order_link_id"`
-	TakeProfit        float64      `json:"take_profit"`
-	StopLoss          float64      `json:"stop_loss"`
-	ReduceOnly        bool         `json:"reduce_only"`
-	CloseOnTrigger    bool         `json:"close_on_trigger"`
-	CreatedAt         time.Time    `json:"created_at"`
-	UpdatedAt         time.Time    `json:"updated_at"`
-	CrossStatus       string       `json:"cross_status"`
-	CrossSeq          sjson.Number `json:"cross_seq"`
-	TriggerBy         string       `json:"trigger_by"`
-	BasePrice         sjson.Number `json:"base_price"`
-	ExpectedDirection string       `json:"expected_direction"`
+	StopOrderId    string       `json:"stop_order_id"`
+	UserId         int64        `json:"user_id"`
+	Symbol         string       `json:"symbol"`
+	Side           string       `json:"side"`
+	OrderType      string       `json:"order_type"`
+	Price          sjson.Number `json:"price"`
+	Qty            sjson.Number `json:"qty"`
+	TimeInForce    string       `json:"time_in_force"`
+	OrderStatus    string       `json:"order_status"`
+	TriggerPrice   sjson.Number `json:"trigger_price"`
+	OrderLinkId    string       `json:"order_link_id"`
+	CreatedTime    time.Time    `json:"created_time"`
+	UpdatedTime    time.Time    `json:"updated_time"`
+	TakeProfit     float64      `json:"take_profit"`
+	StopLoss       float64      `json:"stop_loss"`
+	TriggerBy      string       `json:"trigger_by"`
+	BasePrice      sjson.Number `json:"base_price"`
+	TPTriggerBy    string       `json:"tp_trigger_by"`
+	SLTriggerBy    string       `json:"sl_trigger_by"`
+	ReduceOnly     bool         `json:"reduce_only"`
+	CloseOnTrigger bool         `json:"close_on_trigger"`
 }
 
 type StopOrderListResponse struct {

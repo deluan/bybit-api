@@ -34,13 +34,14 @@ func (b *ByBit) LinearGetKLine(symbol string, interval string, from int64, limit
 // PendingCancel - matching engine has received the cancelation request but it may not be canceled successfully
 func (b *ByBit) LinearGetOrders(symbol string, orderStatus string, limit int, page int) (query string, resp []byte, result OrderListResponseResultPaginated, err error) {
 	var cResult OrderListResponsePaginated
-	if limit == 0 {
-		limit = 20
-	}
 	params := map[string]interface{}{}
 	params["symbol"] = symbol
-	params["page"] = page
-	params["limit"] = limit
+	if limit != 0 {
+		params["limit"] = limit
+	}
+	if page != 0 {
+		params["page"] = page
+	}
 	if orderStatus != "" {
 		params["order_status"] = orderStatus
 	}
@@ -234,8 +235,12 @@ func (b *ByBit) LinearGetStopOrders(symbol string, stopOrderStatus string, limit
 	if stopOrderStatus != "" {
 		params["stop_order_status"] = stopOrderStatus
 	}
-	params["page"] = page
-	params["limit"] = limit
+	if page != 0 {
+		params["page"] = page
+	}
+	if limit != 0 {
+		params["limit"] = limit
+	}
 	query, resp, err = b.SignedRequest(http.MethodGet, "private/linear/stop-order/list", params, &cResult)
 	if err != nil {
 		return

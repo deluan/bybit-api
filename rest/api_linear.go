@@ -336,10 +336,16 @@ func (b *ByBit) LinearCreateStopOrder(side string, orderType string, price float
 }
 
 // ReplaceStopOrder
-func (b *ByBit) LinearReplaceStopOrder(symbol string, orderID string, qty float64, price float64, triggerPrice float64) (query string, resp []byte, result StopOrder, err error) {
+func (b *ByBit) LinearReplaceStopOrder(symbol string, orderID string, orderLinkId string, qty float64, price float64,
+	triggerPrice float64, takeProfit float64, stopLoss float64, tpTriggerBy string, slTriggerBy string) (query string, resp []byte, result StopOrder, err error) {
 	var cResult StopOrderResponse
 	params := map[string]interface{}{}
-	params["stop_order_id"] = orderID
+	if orderID != "" {
+		params["stop_order_id"] = orderID
+	}
+	if orderLinkId != "" {
+		params["order_link_id"] = orderLinkId
+	}
 	params["symbol"] = symbol
 	if qty > 0 {
 		params["p_r_qty"] = qty
@@ -349,6 +355,18 @@ func (b *ByBit) LinearReplaceStopOrder(symbol string, orderID string, qty float6
 	}
 	if triggerPrice > 0 {
 		params["p_r_trigger_price"] = triggerPrice
+	}
+	if takeProfit > 0 {
+		params["take_profit"] = takeProfit
+	}
+	if stopLoss > 0 {
+		params["stop_loss"] = stopLoss
+	}
+	if tpTriggerBy != "" {
+		params["tp_trigger_by"] = tpTriggerBy
+	}
+	if slTriggerBy != "" {
+		params["sl_trigger_by"] = slTriggerBy
 	}
 	query, resp, err = b.SignedRequest(http.MethodPost, "private/linear/stop-order/replace", params, &cResult)
 	if err != nil {

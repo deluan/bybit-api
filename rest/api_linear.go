@@ -454,3 +454,35 @@ func (b *ByBit) LinearGetPosition(symbol string) (query string, resp []byte, res
 	result = r.Result
 	return
 }
+
+// LinearGetClosedPnL
+func (b *ByBit) LinearGetClosedPnL(symbol string, start, end int, execType string, page, limit int) (query string, resp []byte, result []LinearClosedPnL, err error) {
+	var r LinearClosedPnLArrayResponse
+	params := map[string]interface{}{}
+	params["symbol"] = symbol
+	if start != 0 {
+		params["start"] = start
+	}
+	if end != 0 {
+		params["end"] = end
+	}
+	if execType != "" {
+		params["exec_type"] = execType
+	}
+	if page != 0 {
+		params["page"] = page
+	}
+	if limit != 0 {
+		params["limit"] = limit
+	}
+	query, resp, err = b.SignedRequest(http.MethodGet, "private/linear/trade/closed-pnl/list", params, &r)
+	if err != nil {
+		return
+	}
+	if r.RetCode != 0 {
+		err = fmt.Errorf("%v body: [%v]", r.RetMsg, string(resp))
+		return
+	}
+	result = r.Result.Data
+	return
+}

@@ -307,6 +307,37 @@ type PositionData struct {
 	Data    Position `json:"data"`
 }
 
+type LinearClosedPnL struct {
+	ID            int64   `json:"id"`
+	UserID        int64   `json:"user_id"`
+	Symbol        string  `json:"symbol"`
+	OrderID       string  `json:"order_id"`
+	Side          string  `json:"side"`
+	Qty           float64 `json:"qty"`
+	OrderPrice    float64 `json:"order_price"`
+	OrderType     string  `json:"order_type"`
+	ExecType      string  `json:"exec_type"`
+	ClosedSize    float64 `json:"closed_size"`
+	CumEntryValue float64 `json:"cum_entry_value"`
+	AvgEntryPrice float64 `json:"avg_entry_price"`
+	CumExitValue  float64 `json:"cum_exit_value"`
+	AvgExitPrice  float64 `json:"avg_exit_price"`
+	ClosedPnL     float64 `json:"closed_pnl"`
+	FillCount     int     `json:"fill_count"`
+	Leverage      float64 `json:"leverage"`
+	CreatedAt     int64   `json:"created_at"`
+}
+
+type LinearClosedPnLData struct {
+	CurrentPage sjson.Number      `json:"current_page"`
+	Data        []LinearClosedPnL `json:"data"`
+}
+
+type LinearClosedPnLArrayResponse struct {
+	BaseResult
+	Result LinearClosedPnLData `json:"result"`
+}
+
 type LinearPositionArrayResponse struct {
 	BaseResult
 	Result []LinearPosition `json:"result"`

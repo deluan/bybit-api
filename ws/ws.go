@@ -45,9 +45,10 @@ const (
 	WSInsurance     = "insurance"      // 每日保险基金更新: insurance
 	WSInstrument    = "instrument"     // 产品最新行情: instrument
 
-	WSPosition  = "position"  // 仓位变化: position
-	WSExecution = "execution" // 委托单成交信息: execution
-	WSOrder     = "order"     // 委托单的更新: order
+	WSPosition  = "position"   // 仓位变化: position
+	WSExecution = "execution"  // 委托单成交信息: execution
+	WSOrder     = "order"      // 委托单的更新: order
+	WSStopOrder = "stop_order" // 委托单的更新: stop_order
 
 	WSDisconnected = "disconnected" // WS断开事件
 )
@@ -299,7 +300,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 		} else if strings.HasPrefix(topic, WSTrade) {
 			symbol := strings.TrimLeft(topic, WSTrade+".")
 			raw := ret.Get("data").Raw
-			var data []*Trade
+			var data []Trade
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
@@ -320,9 +321,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 				log.Printf("BybitWs %v", err)
 				return
 			}
-			for _, d := range data {
-				b.processKLine(symbol, d)
-			}
+			b.processKLine(symbol, data...)
 		} else if strings.HasPrefix(topic, WSInsurance) {
 			// insurance.BTC
 			topicArray := strings.Split(topic, ".")
@@ -331,7 +330,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			}
 			currency := topicArray[1]
 			raw := ret.Get("data").Raw
-			var data []*Insurance
+			var data []Insurance
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
@@ -345,7 +344,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			}
 			symbol := topicArray[1]
 			raw := ret.Get("data").Raw
-			var data []*Instrument
+			var data []Instrument
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
@@ -354,7 +353,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			b.processInstrument(symbol, data...)
 		} else if topic == WSPosition {
 			raw := ret.Get("data").Raw
-			var data []*Position
+			var data []Position
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
@@ -363,7 +362,7 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			b.processPosition(data...)
 		} else if topic == WSExecution {
 			raw := ret.Get("data").Raw
-			var data []*Execution
+			var data []Execution
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
@@ -372,13 +371,22 @@ func (b *ByBitWS) processMessage(messageType int, data []byte) {
 			b.processExecution(data...)
 		} else if topic == WSOrder {
 			raw := ret.Get("data").Raw
-			var data []*Order
+			var data []Order
 			err := json.Unmarshal([]byte(raw), &data)
 			if err != nil {
 				log.Printf("BybitWs %v", err)
 				return
 			}
 			b.processOrder(data...)
+		} else if topic == WSStopOrder {
+			raw := ret.Get("data").Raw
+			var data []StopOrder
+			err := json.Unmarshal([]byte(raw), &data)
+			if err != nil {
+				log.Printf("BybitWs %v", err)
+				return
+			}
+			b.processStopOrder(data...)
 		}
 		return
 	}

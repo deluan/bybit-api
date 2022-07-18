@@ -24,30 +24,34 @@ func (b *ByBitWS) processOrderBookDelta(symbol string, delta *OrderBookL2Delta) 
 	b.Emit(WSOrderBook25L1, symbol, value.GetOrderBook())
 }
 
-func (b *ByBitWS) processTrade(symbol string, data ...*Trade) {
+func (b *ByBitWS) processTrade(symbol string, data ...Trade) {
 	b.Emit(WSTrade, symbol, data)
 }
 
-func (b *ByBitWS) processKLine(symbol string, data KLine) {
+func (b *ByBitWS) processKLine(symbol string, data ...KLine) {
 	b.Emit(WSKLine, symbol, data)
 }
 
-func (b *ByBitWS) processInsurance(currency string, data ...*Insurance) {
+func (b *ByBitWS) processInsurance(currency string, data ...Insurance) {
 	b.Emit(WSInsurance, currency, data)
 }
 
-func (b *ByBitWS) processInstrument(symbol string, data ...*Instrument) {
+func (b *ByBitWS) processInstrument(symbol string, data ...Instrument) {
 	b.Emit(WSInstrument, symbol, data)
 }
 
-func (b *ByBitWS) processPosition(data ...*Position) {
+func (b *ByBitWS) processPosition(data ...Position) {
 	b.Emit(WSPosition, data)
 }
 
-func (b *ByBitWS) processExecution(data ...*Execution) {
+func (b *ByBitWS) processExecution(data ...Execution) {
 	b.Emit(WSExecution, data)
 }
 
-func (b *ByBitWS) processOrder(data ...*Order) {
+func (b *ByBitWS) processOrder(data ...Order) {
 	b.Emit(WSOrder, data)
+}
+
+func (b *ByBitWS) processStopOrder(data ...StopOrder) {
+	b.Emit(WSStopOrder, data)
 }

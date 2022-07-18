@@ -63,26 +63,53 @@ type Instrument struct {
 }
 
 type Order struct {
-	OrderID       string       `json:"order_id"`
-	OrderLinkID   string       `json:"order_link_id"`
-	Symbol        string       `json:"symbol"`
-	Side          string       `json:"side"`
-	OrderType     string       `json:"order_type"`
-	Price         sjson.Number `json:"price"`
-	Qty           float64      `json:"qty"`
-	TimeInForce   string       `json:"time_in_force"` // GoodTillCancel/ImmediateOrCancel/FillOrKill/PostOnly
-	CreateType    string       `json:"create_type"`
-	CancelType    string       `json:"cancel_type"`
-	OrderStatus   string       `json:"order_status"`
-	LeavesQty     float64      `json:"leaves_qty"`
-	CumExecQty    float64      `json:"cum_exec_qty"`
-	CumExecValue  sjson.Number `json:"cum_exec_value"`
-	CumExecFee    sjson.Number `json:"cum_exec_fee"`
-	Timestamp     time.Time    `json:"timestamp"`
-	TakeProfit    sjson.Number `json:"take_profit"`
-	StopLoss      sjson.Number `json:"stop_loss"`
-	TrailingStop  sjson.Number `json:"trailing_stop"`
-	LastExecPrice sjson.Number `json:"last_exec_price"`
+	OrderID        string       `json:"order_id"`
+	OrderLinkID    string       `json:"order_link_id"`
+	Symbol         string       `json:"symbol"`
+	Side           string       `json:"side"`
+	OrderType      string       `json:"order_type"`
+	Price          float64      `json:"price"`
+	Qty            float64      `json:"qty"`
+	LeavesQty      float64      `json:"leaves_qty"`
+	LastExecPrice  sjson.Number `json:"last_exec_price"`
+	CumExecQty     float64      `json:"cum_exec_qty"`
+	CumExecValue   sjson.Number `json:"cum_exec_value"`
+	CumExecFee     sjson.Number `json:"cum_exec_fee"`
+	TimeInForce    string       `json:"time_in_force"` // GoodTillCancel/ImmediateOrCancel/FillOrKill/PostOnly
+	CreateType     string       `json:"create_type"`
+	CancelType     string       `json:"cancel_type"`
+	OrderStatus    string       `json:"order_status"`
+	TakeProfit     sjson.Number `json:"take_profit"`
+	StopLoss       sjson.Number `json:"stop_loss"`
+	TrailingStop   sjson.Number `json:"trailing_stop"`
+	CreatedTime    time.Time    `json:"created_time"`
+	UpdatedTime    time.Time    `json:"updated_time"`
+	ReduceOnly     bool         `json:"reduce_only"`
+	CloseOnTrigger bool         `json:"close_on_trigger"`
+	PositionIdx    string       `json:"position_idx"`
+}
+
+type StopOrder struct {
+	StopOrderId    string       `json:"stop_order_id"`
+	OrderLinkId    string       `json:"order_link_id"`
+	UserId         string       `json:"user_id"`
+	Symbol         string       `json:"symbol"`
+	Side           string       `json:"side"`
+	OrderType      string       `json:"order_type"`
+	Price          sjson.Number `json:"price"`
+	Qty            sjson.Number `json:"qty"`
+	TimeInForce    string       `json:"time_in_force"`
+	CreateType     string       `json:"create_type"`
+	CancelType     string       `json:"cancel_type"`
+	OrderStatus    string       `json:"order_status"`
+	StopOrderType  string       `json:"stop_order_type"`
+	TPTriggerBy    string       `json:"tp_trigger_by"`
+	TriggerPrice   sjson.Number `json:"trigger_price"`
+	CreatedTime    time.Time    `json:"created_time"`
+	UpdatedTime    time.Time    `json:"updated_time"`
+	ReduceOnly     bool         `json:"reduce_only"`
+	CloseOnTrigger bool         `json:"close_on_trigger"`
+	PositionIdx    string       `json:"position_idx"`
 }
 
 type Execution struct {

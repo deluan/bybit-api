@@ -57,6 +57,29 @@ func (b *ByBit) LinearGetOrders(symbol string, orderStatus string, limit int, pa
 	return
 }
 
+// LinearGetOrder Get Order
+func (b *ByBit) LinearGetOrder(symbol string, orderId string, orderLinkId string) (query string, resp []byte, result OrderResponse, err error) {
+	var cResult OrderResponse
+	params := map[string]interface{}{}
+	params["symbol"] = symbol
+	if orderId != "" {
+		params["order_id"] = orderId
+	}
+	if orderLinkId != "" {
+		params["order_link_id"] = orderLinkId
+	}
+	query, resp, err = b.SignedRequest(http.MethodGet, "private/linear/order/list", params, &cResult)
+	if err != nil {
+		return
+	}
+	if cResult.RetCode != 0 {
+		err = fmt.Errorf("%v body: [%v]", cResult.RetMsg, string(resp))
+		return
+	}
+	result = cResult
+	return
+}
+
 // LinearGetActiveOrders Query real-time active order information. If only order_id or order_link_id are passed, a single order will be returned; otherwise, returns up to 500 unfilled orders.
 func (b *ByBit) LinearGetActiveOrders(symbol string) (query string, resp []byte, result OrderArrayResponse, err error) {
 	var cResult OrderArrayResponse

@@ -1,9 +1,10 @@
 package rest
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestByBit_GetOrderBook(t *testing.T) {
@@ -114,7 +115,7 @@ func TestByBit_GetStopOrders(t *testing.T) {
 		//if order.ExtFields != nil {
 		//	t.Logf("%#v %v", order, *order.ExtFields)
 		//} else {
-		t.Logf("CreatedAt: %v %#v", order.CreatedAt.Local(), order)
+		t.Logf("CreatedTime: %v %#v", order.CreatedTime.Local(), order)
 		//}
 	}
 }

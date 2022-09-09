@@ -104,26 +104,26 @@ type GetAccountRatioResult struct {
 
 type Ticker struct {
 	Symbol               string       `json:"symbol"`
-	BidPrice             sjson.Number `json:"bid_price"`
-	AskPrice             sjson.Number `json:"ask_price"`
+	BidPrice             float64      `json:"bid_price,string"`
+	AskPrice             float64      `json:"ask_price,string"`
 	LastPrice            float64      `json:"last_price,string"`
 	LastTickDirection    string       `json:"last_tick_direction"`
-	PrevPrice24H         float64      `json:"prev_price_24h,string"`
-	Price24HPcnt         float64      `json:"price_24h_pcnt,string"`
-	HighPrice24H         float64      `json:"high_price_24h,string"`
-	LowPrice24H          float64      `json:"low_price_24h,string"`
-	PrevPrice1H          float64      `json:"prev_price_1h,string"`
-	Price1HPcnt          float64      `json:"price_1h_pcnt,string"`
-	MarkPrice            float64      `json:"mark_price,string"`
-	IndexPrice           float64      `json:"index_price,string"`
+	PrevPrice24H         sjson.Number `json:"prev_price_24h"`
+	Price24HPcnt         sjson.Number `json:"price_24h_pcnt"`
+	HighPrice24H         sjson.Number `json:"high_price_24h"`
+	LowPrice24H          sjson.Number `json:"low_price_24h"`
+	PrevPrice1H          sjson.Number `json:"prev_price_1h"`
+	Price1HPcnt          sjson.Number `json:"price_1h_pcnt"`
+	MarkPrice            sjson.Number `json:"mark_price"`
+	IndexPrice           sjson.Number `json:"index_price"`
 	OpenInterest         float64      `json:"open_interest"`
-	OpenValue            float64      `json:"open_value,string"`
-	TotalTurnover        float64      `json:"total_turnover,string"`
-	Turnover24H          float64      `json:"turnover_24h,string"`
+	OpenValue            sjson.Number `json:"open_value"`
+	TotalTurnover        sjson.Number `json:"total_turnover"`
+	Turnover24H          sjson.Number `json:"turnover_24h"`
 	TotalVolume          float64      `json:"total_volume"`
 	Volume24H            float64      `json:"volume_24h"`
-	FundingRate          float64      `json:"funding_rate,string"`
-	PredictedFundingRate float64      `json:"predicted_funding_rate,string"`
+	FundingRate          sjson.Number `json:"funding_rate"`
+	PredictedFundingRate sjson.Number `json:"predicted_funding_rate"`
 	NextFundingTime      string       `json:"next_funding_time"` // string because can be empty, parse it with "2006-01-02T15:04:05Z07:00"
 	CountdownHour        int          `json:"countdown_hour"`
 }
